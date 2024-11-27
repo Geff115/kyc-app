@@ -1,12 +1,12 @@
 // Rendering the steps dynamically
 "use client";
 
-import { useForm } from "@/components/FormContext";
-import PersonalDetails from "@/forms/PersonalDetails";
-import AddressDetails from "@/forms/AddressDetails";
-import DocumentUpload from "@/forms/DocumentUpload";
-import Summary from "@/forms/Summary"
-import ProgressBar from "@/components/ProgressBar";
+import { useForm } from "@components/FormContext";
+import PersonalDetails from "@forms/PersonalDetails";
+import AddressDetails from "@forms/AddressDetails";
+import DocumentUpload from "@forms/DocumentUpload";
+import Summary from "@forms/Summary"
+import ProgressBar from "@components/ProgressBar";
 
 export default function KYCForm() {
   const { currentStep } = useForm();

@@ -2,7 +2,7 @@
 // Allowing Users to review and go back to make changes
 "use client";
 
-import { useForm } from "@/components/FormContext";
+import { useForm } from "@components/FormContext";
 
 const Summary = () => {
   const { formData, prevStep } = useForm();
