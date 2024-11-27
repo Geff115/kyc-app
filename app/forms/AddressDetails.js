@@ -40,6 +40,12 @@ const AddressDetails = () => {
         <input id="country" type="text" {...register("country", { required: "What Country are you from?" })} />
         {errors.country && <span className="text-red-500">{errors.country.message}</span>}
       </div>
+      <div>
+        <button type="button" onClick={prevStep}>
+          Back
+        </button>
+        <button type="submit">Next</button>
+      </div>
     </form>
   );
 };
