@@ -5,7 +5,7 @@ import { useForm } from "@components/FormContext";
 import { useForm as useHookForm  } from "react-hook-form";
 
 const AddressDetails = () => {
-  const { formData, setFormData, nextStep } = useForm();
+  const { formData, setFormData, nextStep, prevStep } = useForm();
   const { register, handleSubmit, formState: { errors } } = useHookForm();
 
   const onSubmit = (data) => {

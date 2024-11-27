@@ -23,6 +23,11 @@ const DocumentUpload = () => {
         setError("");
         setPreview(URL.createObjectURL(file));
       }
+      // Ensuring the file size is not above the 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
+        setError("File size exceeds the 5MB limit");
+        return;
+      }
     }
   };
 
