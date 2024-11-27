@@ -17,26 +17,31 @@ const DocumentUpload = () => {
   const handleFileChange = (e, setPreview, setError) => {
     const file = e.target.files[0];
     if (file) {
-      if (!file.type.match(/image\/(jpeg|png)|application\/pdf/)) {
+      const allowedImageTypes = ["image/jpeg", "image/png"];
+      const allowedPdfType = "application/pdf";
+      if (![...allowedImageTypes, allowedPdfType].includes(file.type)) {
         setError("Invalid file type");
-      } else {
-        setError("");
-        setPreview(URL.createObjectURL(file));  // Blob URL for preview
+        return;
       }
       // Ensuring the file size is not above the 5MB limit
       if (file.size > 5 * 1024 * 1024) {
         setError("File size exceeds the 5MB limit");
         return;
       }
+
+      setError("");
+      const blobURL = URL.createObjectURL(file);
+      setPreview({ url: blobURL, type: file.type });  // Store both URL and type
     }
   };
 
   useEffect(() => {
+    // clean up blob URLs to free up memory
     return () => {
-      setIdPreview(null);
-      setProofPreview(null);
+      if (idPreview) URL.revokeObjectURL(idPreview);
+      if (proofPreview) URL.revokeObjectURL(proofPreview);
     };
-  }, []);
+  }, [idPreview, proofPreview]);
 
   const onSubmit = (data) => {
     setFormData({ ...formData, ...data });
@@ -58,14 +63,17 @@ const DocumentUpload = () => {
           />
           {idPreview && (
             <div className="relative w-32 h-32">
-              {/* Conditional rendering for blob URLs */}
-              {idPreview.startsWith("blob:") ? (
-                <img src={idPreview} alt="Preview of uploaded ID Document" className="object-cover rounded-md w-full h-full" />
+              {idPreview.type==="application/pdf" ? (
+                <a href={idPreview.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                  View your ID PDF
+                </a>
               ) : (
                 <Image
-                  src={idPreview}
+                  src={idPreview.url}
                   alt="Preview of uploaded ID Document"
-                  fill
+                  width={128}
+                  height={128}
+                  unoptimized
                   className="object-cover rounded-md"
                 />
               )}
@@ -74,6 +82,7 @@ const DocumentUpload = () => {
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
           {errors.id_document && <span className="text-red-500 text-sm">{errors.id_document.message}</span>}
         </div>
+
         <div className="space-y-2">
           <label htmlFor="proof_of_address" className="block font-medium text-gray-700">Upload Proof of Address</label>
           <input
@@ -86,14 +95,17 @@ const DocumentUpload = () => {
           />
           {proofPreview && (
             <div className="relative w-32 h-32">
-              {/* Conditional rendering for blob URLs */}
-              {proofPreview.startsWith("blob:") ? (
-                <img src={proofPreview} alt="Preview of uploaded Proof of Address" className="object-cover rounded-md w-full h-full" />
+              {proofPreview.type === "application/pdf" ? (
+                <a href={proofPreview.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                  View Your proof of Address PDF
+                </a>
               ) : (
                 <Image
-                  src={proofPreview}
+                  src={proofPreview.url}
                   alt="Preview of uploaded proof of address"
-                  fill
+                  width={128}
+                  height={128}
+                  unoptimized
                   className="object-cover rounded-md"
                 />
               )}
@@ -102,6 +114,7 @@ const DocumentUpload = () => {
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
           {errors.proof_of_address && <span className="text-red-500 text-sm">{errors.proof_of_address.message}</span>}
         </div>
+
         <div className="flex justify-between mt-6">
           <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
             Back
