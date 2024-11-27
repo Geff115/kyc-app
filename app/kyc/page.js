@@ -12,7 +12,8 @@ export default function KYCForm() {
   const steps = [
     <PersonalDetails key="step-1" />,
     <AddressDetails key="step-2" />,
-    <DocumentUpload key="step-3" />
+    <DocumentUpload key="step-3" />,
+    <Summary key="step-4" />
   ];
 
   return (
