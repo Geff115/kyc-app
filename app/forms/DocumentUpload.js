@@ -2,7 +2,7 @@
 "use client";
 
 import { useForm } from "@components/FormContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm as useHookForm } from "react-hook-form";
 import Image from "next/image";
 
@@ -56,7 +56,16 @@ const DocumentUpload = () => {
             {...register("id_document", { required: "Please upload a valid Government ID" })}
             onChange={(e) => handleFileChange(e, setIdPreview, setFileError)}
           />
-          {idPreview && <Image src={idPreview} alt="Preview of uploaded ID Document" className="w-32 h-32 object-cover" />}
+          {idPreview && (
+            <div className="relative w-32 h-32">
+              <Image
+                src={idPreview}
+                alt="Preview of uploaded ID Document"
+                fill
+                className="object-cover rounded-md"
+              />
+            </div>
+          )}
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
           {errors.id_document && <span className="text-red-500 text-sm">{errors.id_document.message}</span>}
         </div>
@@ -70,7 +79,16 @@ const DocumentUpload = () => {
             {...register("proof_of_address", { required: "Please upload a valid proof of address" })}
             onChange={(e) => handleFileChange(e, setProofPreview, setFileError)}
           />
-          {proofPreview && <Image src={proofPreview} alt="Preview of uploaded proof of address" className="w-32 h-32 object-cover" />}
+          {proofPreview && (
+            <div className="relative w-32 h-32">
+              <Image
+                src={proofPreview}
+                alt="Preview of uploaded proof of address"
+                fill
+                className="object-cover rounded-md"
+              />
+            </div>
+          )}
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
           {errors.proof_of_address && <span className="text-red-500 text-sm">{errors.proof_of_address.message}</span>}
         </div>

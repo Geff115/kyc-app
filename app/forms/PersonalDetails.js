@@ -113,7 +113,7 @@ const PersonalDetails = () => {
           {errors.fatherName && <span className="text-red-500 text-sm">{errors.fatherName.message}</span>}
         </div>
         <div className="flex justify-between mt-6">
-          <button type="submit" className=" text-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Next</button>
+          <button type="submit" className="text-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Next</button>
         </div>
       </form>
     </div>

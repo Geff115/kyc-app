@@ -13,7 +13,7 @@ const ProgressBar = () => {
         className="bg-blue-500 h-2.5 rounded-full transition-all duration-500"
         style={{ width: `${(currentStep / steps) * 100}%`}}
       ></div>
-      <div className="text-sm text-center mt-2">
+      <div className="text-sm text-left mt-2">
         {currentStep} / {steps}
       </div>
     </div>
