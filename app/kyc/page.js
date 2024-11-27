@@ -20,9 +20,9 @@ export default function KYCForm() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold">KYC Form</h1>
+      <h1 className="text-2xl font-bold text-center mt-4">KYC Form</h1>
       <ProgressBar />
-      <p>Start your KYC process here!</p>
+      <p className="text-center text-gray-500 mt-2">Start your KYC process here!</p>
       {steps[currentStep - 1]}
     </div>
   );

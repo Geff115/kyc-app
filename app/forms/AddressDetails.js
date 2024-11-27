@@ -6,25 +6,29 @@ import { useForm as useHookForm  } from "react-hook-form";
 
 const AddressDetails = () => {
   const { formData, setFormData, nextStep, prevStep } = useForm();
-  const { register, handleSubmit, formState: { errors } } = useHookForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useHookForm({ defaultValues: formData });  // Load default values from form data
 
   const onSubmit = (data) => {
-    setFormData({ ...formData, ...data });
-    nextStep();
+    setFormData({ ...formData, ...data });  // Update global form data
+    nextStep();  // Go to the next step
   };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="house_number" className="block font-medium text-gray-700">House Number</label>
+          <label htmlFor="houseNumber" className="block font-medium text-gray-700">House Number</label>
           <input 
-            id="house_number" 
+            id="houseNumber" 
             type="text" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("house_number", { required: "House number is required" })} 
+            {...register("houseNumber", { required: "House number is required" })} 
           />
-          {errors.house_number && <span className="text-red-500 text-sm">{errors.house_number.message}</span>}
+          {errors.houseNumber && <span className="text-red-500 text-sm">{errors.houseNumber.message}</span>}
         </div>
         <div className="space-y-2">
           <label htmlFor="street" className="block font-medium text-gray-700">street</label>
@@ -37,24 +41,24 @@ const AddressDetails = () => {
           {errors.street && <span className="text-red-500 text-sm">{errors.street.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="city_state" className="block font-medium text-gray-700">City/State</label>
+          <label htmlFor="cityState" className="block font-medium text-gray-700">City/State</label>
           <input 
-            id="city_state" 
+            id="cityState" 
             type="text" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("city_state", { required: "Enter a valid City or State" })} 
+            {...register("cityState", { required: "Enter a valid City or State" })} 
           />
-          {errors.city_state && <span className="text-red-500 text-sm">{errors.city_state.message}</span>}
+          {errors.cityState && <span className="text-red-500 text-sm">{errors.cityState.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="postal_code" className="block font-medium text-gray-700">Postal Code</label>
+          <label htmlFor="postalCode" className="block font-medium text-gray-700">Postal Code</label>
           <input 
-            id="postal_code" 
+            id="postalCode" 
             type="text" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("postal_code", { required: "Enter a valid postal code" })} 
+            {...register("postalCode", { required: "Enter a valid postal code" })} 
           />
-          {errors.postal_code && <span className="text-red-500 text-sm">{errors.postal_code.message}</span>}
+          {errors.postalCode && <span className="text-red-500 text-sm">{errors.postalCode.message}</span>}
         </div>
         <div className="space-y-2">
           <label htmlFor="country" className="block font-medium text-gray-700">Country</label>
@@ -66,7 +70,7 @@ const AddressDetails = () => {
           />
           {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
         </div>
-        <div className="flex justifyn-between mt-6">
+        <div className="flex justify-between mt-6">
           <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
             Back
           </button>

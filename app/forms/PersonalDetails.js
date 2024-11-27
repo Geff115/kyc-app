@@ -5,33 +5,37 @@ import { useForm } from "@components/FormContext";
 import { useForm as useHookForm  } from "react-hook-form";
 
 const PersonalDetails = () => {
-  const { formData, setFormData, nextStep, prevStep } = useForm();
-  const { register, handleSubmit, formState: { errors } } = useHookForm();
+  const { formData, setFormData, nextStep } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useHookForm({ defaultValues: formData });  // Load default values from form data
 
   const onSubmit = (data) => {
-    setFormData({ ...formData, ...data });
-    nextStep();
+    setFormData({ ...formData, ...data });  // Update global form data
+    nextStep();  // Go to the next step
   };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
-          <label htmlFor="firstname" className="block font-medium text-gray-700">First Name</label>
+          <label htmlFor="firstName" className="block font-medium text-gray-700">First Name</label>
           <input 
-            id="firstname" 
+            id="firstName" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("firstname", { required: "First name is required" })} 
+            {...register("firstName", { required: "First name is required" })} 
           />
-          {errors.firstname && <span className="text-red-500 text-sm">{errors.firstname.message}</span>}
+          {errors.firstName && <span className="text-red-500 text-sm">{errors.firstName.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="lastname" className="block font-medium text-gray-700">Last Name</label>
+          <label htmlFor="lastName" className="block font-medium text-gray-700">Last Name</label>
           <input 
-            id="lastname" className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("lastname", { required: "Last name is required" })} 
+            id="lastName" className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            {...register("lastName", { required: "Last name is required" })} 
           />
-          {errors.lastname && <span className="text-red-500 text-sm">{errors.lastname.message}</span>}
+          {errors.lastName && <span className="text-red-500 text-sm">{errors.lastName.message}</span>}
         </div>
         <div className="space-y-2">
           <label htmlFor="gender" className="block font-medium text-gray-700">Gender</label>
@@ -47,14 +51,14 @@ const PersonalDetails = () => {
           {errors.gender && <span className="text-red-500 text-sm">{errors.gender.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="dob" className="block font-medium text-gray-700">Date Of Birth</label>
+          <label htmlFor="dateOfBirth" className="block font-medium text-gray-700">Date Of Birth</label>
           <input 
-            id="dob" 
+            id="dateOfBirth" 
             type="date" placeholder="MM/DD/YYYY" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("dob", { required: "DOB is required" })} 
+            {...register("dateOfBirth", { required: "DOB is required" })} 
           />
-          {errors.dob && <span className="text-red-500 text-sm">{errors.dob.message}</span>}
+          {errors.dateOfBirth && <span className="text-red-500 text-sm">{errors.dateOfBirth.message}</span>}
         </div>
         <div className="space-y-2">
           <label htmlFor="email" className="block font-medium text-gray-700">Email</label>
@@ -66,21 +70,21 @@ const PersonalDetails = () => {
           {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="phone" className="block font-medium text-gray-700">Phone Number</label>
+          <label htmlFor="phoneNumber" className="block font-medium text-gray-700">Phone Number</label>
           <input 
-            id="phone" 
+            id="phoneNumber" 
             type="tel" placeholder="123-456-7890" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("phone", { required: "Enter your phone number" })} 
+            {...register("phoneNumber", { required: "Enter your phone number" })} 
           />
-          {errors.phone && <span className="text-red-500 text-sm">{errors.phone.message}</span>}
+          {errors.phoneNumber && <span className="text-red-500 text-sm">{errors.phoneNumber.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="relationship" className="block font-medium text-gray-700">Relationship Status</label>
+          <label htmlFor="relationshipStatus" className="block font-medium text-gray-700">Relationship Status</label>
           <select 
-            id="relationship" 
+            id="relationshipStatus" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("relationship", { required: "Please tell us your relationship status" })}
+            {...register("relationshipStatus", { required: "Please tell us your relationship status" })}
           >
             <option value="">Select...</option>
             <option value="single">Single</option>
@@ -88,31 +92,28 @@ const PersonalDetails = () => {
             <option value="married">Married</option>
             <option value="divorced">Divorced</option>
           </select>
-          {errors.relationship && <span className="text-red-500 text-sm">{errors.relationship.message}</span>}
+          {errors.relationshipStatus && <span className="text-red-500 text-sm">{errors.relationshipStatus.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="mothername" className="block font-medium text-gray-700">Mother&apos;s Name</label>
+          <label htmlFor="motherName" className="block font-medium text-gray-700">Mother&apos;s Name</label>
           <input 
-            id="mothername" 
+            id="motherName" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("mothername", { required: "What's your mother's name?" })} 
+            {...register("motherName", { required: "What's your mother's name?" })} 
           />
-          {errors.mothername && <span className="text-red-500 text-sm">{errors.mothername.message}</span>}
+          {errors.motherName && <span className="text-red-500 text-sm">{errors.motherName.message}</span>}
         </div>
         <div className="space-y-2">
-          <label htmlFor="fathername" className="block font-medium text-gray-700">Father&apos;s Name</label>
+          <label htmlFor="fatherName" className="block font-medium text-gray-700">Father&apos;s Name</label>
           <input 
-            id="fathername" 
+            id="fatherName" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("fathername", { required: "What's your father's name?" })} 
+            {...register("fatherName", { required: "What's your father's name?" })} 
           />
-          {errors.fathername && <span className="text-red-500 text-sm">{errors.fathername.message}</span>}
+          {errors.fatherName && <span className="text-red-500 text-sm">{errors.fatherName.message}</span>}
         </div>
         <div className="flex justify-between mt-6">
-          <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
-            Back
-          </button>
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Next</button>
+          <button type="submit" className=" text-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Next</button>
         </div>
       </form>
     </div>

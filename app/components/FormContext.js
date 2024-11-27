@@ -5,7 +5,22 @@ import { createContext, useContext, useState, useEffect } from "react";
 const FormContext = createContext();
 
 export const FormProvider = ({ children }) => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    gender: '',
+    dateOfBirth: '',
+    email: '',
+    phoneNumber: '',
+    relationshipStatus: '',
+    motherName: '',
+    fatherName: '',
+    houseNumber: '',
+    street: '',
+    cityState: '',
+    postalCode: '',
+    country: '',
+  });
   const [currentStep, setCurrentStep] = useState(1);
   const [isMounted, setIsMounted] = useState(false);  // Track if mounted
 
