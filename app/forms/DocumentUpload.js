@@ -21,7 +21,7 @@ const DocumentUpload = () => {
         setError("Invalid file type");
       } else {
         setError("");
-        setPreview(URL.createObjectURL(file));
+        setPreview(URL.createObjectURL(file));  // Blob URL for preview
       }
       // Ensuring the file size is not above the 5MB limit
       if (file.size > 5 * 1024 * 1024) {
@@ -58,12 +58,17 @@ const DocumentUpload = () => {
           />
           {idPreview && (
             <div className="relative w-32 h-32">
-              <Image
-                src={idPreview}
-                alt="Preview of uploaded ID Document"
-                fill
-                className="object-cover rounded-md"
-              />
+              {/* Conditional rendering for blob URLs */}
+              {idPreview.startsWith("blob:") ? (
+                <img src={idPreview} alt="Preview of uploaded ID Document" className="object-cover rounded-md w-full h-full" />
+              ) : (
+                <Image
+                  src={idPreview}
+                  alt="Preview of uploaded ID Document"
+                  fill
+                  className="object-cover rounded-md"
+                />
+              )}
             </div>
           )}
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
@@ -81,12 +86,17 @@ const DocumentUpload = () => {
           />
           {proofPreview && (
             <div className="relative w-32 h-32">
-              <Image
-                src={proofPreview}
-                alt="Preview of uploaded proof of address"
-                fill
-                className="object-cover rounded-md"
-              />
+              {/* Conditional rendering for blob URLs */}
+              {proofPreview.startsWith("blob:") ? (
+                <img src={proofPreview} alt="Preview of uploaded Proof of Address" className="object-cover rounded-md w-full h-full" />
+              ) : (
+                <Image
+                  src={proofPreview}
+                  alt="Preview of uploaded proof of address"
+                  fill
+                  className="object-cover rounded-md"
+                />
+              )}
             </div>
           )}
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
