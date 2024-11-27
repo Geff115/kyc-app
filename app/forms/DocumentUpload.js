@@ -17,7 +17,7 @@ const DocumentUpload = () => {
   const handleFileChange = (e, setPreview, setError) => {
     const file = e.target.files[0];
     if (file) {
-      const allowedImageTypes = ["image/jpeg", "image/png"];
+      const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
       const allowedPdfType = "application/pdf";
       if (![...allowedImageTypes, allowedPdfType].includes(file.type)) {
         setError("Invalid file type");
@@ -31,7 +31,7 @@ const DocumentUpload = () => {
 
       setError("");
       const blobURL = URL.createObjectURL(file);
-      setPreview({ url: blobURL, type: file.type });  // Store both URL and type
+      setPreview({ url: blobURL, type: file.type, file });  // Store URL, type, and file
     }
   };
 
@@ -44,7 +44,12 @@ const DocumentUpload = () => {
   }, [idPreview, proofPreview]);
 
   const onSubmit = (data) => {
-    setFormData({ ...formData, ...data });
+    setFormData({ 
+      ...formData,
+      id_document: idPreview ? { url: idPreview.url, type: idPreview.type } : null,  // store URL and type
+      proof_of_address: proofPreview ? { url: proofPreview.url, type: proofPreview.type } : null,  // store URL and type
+      ...data,
+    });
     nextStep();
   };
 
@@ -77,6 +82,13 @@ const DocumentUpload = () => {
                   className="object-cover rounded-md"
                 />
               )}
+              <button
+                type="button"
+                onClick={() => setIdPreview(null)}
+                className="text-red-500 underline"
+              >
+                Remove
+              </button>
             </div>
           )}
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
@@ -109,6 +121,13 @@ const DocumentUpload = () => {
                   className="object-cover rounded-md"
                 />
               )}
+              <button
+                type="button"
+                onClick={() => setProofPreview(null)}
+                className="text-red-500 underline"
+              >
+                Remove
+              </button>
             </div>
           )}
           {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
@@ -119,7 +138,17 @@ const DocumentUpload = () => {
           <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
             Back
           </button>
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">submit</button>
+          <button 
+            type="submit"
+            disabled={fileError || !idPreview || !proofPreview}
+            className={`px-4 py-2 rounded-lg ${
+              fileError || !idPreview || !proofPreview
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-blue-500 hover:bg-blue-600 text-white'
+            }`}
+            >
+              submit
+            </button>
         </div>
       </form>
     </div>
