@@ -71,7 +71,12 @@ const PersonalDetails = () => {
         <input id="fathername" {...register("fathername", { required: "What's your father's name?" })} />
         {errors.fathername && <span className="text-red-500">{errors.fathername.message}</span>}
       </div>
-      <button type="submit">Next</button>
+      <div>
+        <button type="button" onClick={prevStep}>
+          Back
+        </button>
+        <button type="submit">Next</button>
+      </div>
     </form>
   );
 };
