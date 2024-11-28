@@ -11,6 +11,17 @@ const Summary = () => {
     const handleSubmit = () => {
       alert("Form submitted successfully!");
     };
+
+    // Helper function to format date
+    const formatDate = (date) => {
+      if (!date) return "N/A";
+      if (typeof date === "string") return date;
+      return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    };
   
     // Helper function to render the uploaded files
     const renderUploadedFile = (fileData, label) => {
@@ -45,45 +56,51 @@ const Summary = () => {
     };
   
     return (
-      <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-bold text-gray-800 text-center">Review Your Details</h2>
-        <div className="space-y-4">
-          {/* Display the personal details in a form-like structure */}
-          <div className="space-y-2">
-            <p><strong>First Name:</strong> {formData.firstName}</p>
-            <p><strong>Last Name:</strong> {formData.lastName}</p>
-            <p><strong>Gender:</strong> {formData.gender}</p>
-            <p><strong>Date of Birth:</strong> {formData.dateOfBirth}</p>
-            <p><strong>Email:</strong> {formData.email}</p>
-            <p><strong>Phone Number:</strong> {formData.phoneNumber}</p>
-            <p><strong>Relationship Status:</strong> {formData.relationshipStatus}</p>
-            <p><strong>Mother&apos;s Name:</strong> {formData.motherName}</p>
-            <p><strong>Father&apos;s Name:</strong> {formData.fatherName}</p>
-            <p><strong>Address:</strong> {formData.houseNumber} {formData.street}, {formData.cityState}, {formData.postalCode}, {formData.country}</p>
-          </div>
-          <br></br>
+      <div className="min-h-screen bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center">
+        <div className="max-w-4xl w-full bg-white p-8 shadow-lg rounded-lg">
+          <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Review Your Details</h2>
+          <div className="space-y-6">
+            {/* Personal details */}
+            <div className="p-4 bg-gray-50 rounded-lg shadow-md">
+              <h3 className="text-lg font-semibold text-gray-700 text-center mb-3">Personal Details</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <p><strong>First Name:</strong> {formData.firstName}</p>
+                <p><strong>Last Name:</strong> {formData.lastName}</p>
+                <p><strong>Gender:</strong> {formData.gender}</p>
+                <p><strong>Date of Birth:</strong> {formatDate(formData.dateOfBirth)}</p>
+                <p><strong>Email:</strong> {formData.email}</p>
+                <p><strong>Phone Number:</strong> {formData.phoneNumber}</p>
+                <p><strong>Relationship Status:</strong> {formData.relationshipStatus}</p>
+                <p><strong>Mother&apos;s Name:</strong> {formData.motherName}</p>
+                <p><strong>Father&apos;s Name:</strong> {formData.fatherName}</p>
+                <p><strong>Address:</strong> {formData.houseNumber} {formData.street}, {formData.cityState}, {formData.postalCode}, {formData.country}</p>
+              </div>
+            </div>
   
-          {/* Render Uploaded Files */}
-          <div className="mt-4">
-            <h3 className="text-lg font-bold text-gray-800 text-center">Uploaded Files</h3>
-            {renderUploadedFile(formData.id_document, "ID Document")}
-            {renderUploadedFile(formData.proof_of_address, "Proof of Address")}
-          </div>
+            {/* Uploaded Files */}
+            <div className="p-4 bg-gray-50 rounded-lg shadow-md">
+              <h3 className="text-lg font-bold text-gray-700 mb-3 text-center">Uploaded Files</h3>
+              <div className="space-y-4">
+                {renderUploadedFile(formData.id_document, "ID Document")}
+                {renderUploadedFile(formData.proof_of_address, "Proof of Address")}
+              </div>
+            </div>
   
-          {/* Back and Submit Buttons */}
-          <div className="flex justify-between mt-6">
-            <button
-              onClick={prevStep}
-              className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-600 transition ease-in-out duration-200"
-            >
-              Back
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition ease-in-out duration-200"
-            >
-              Submit
-            </button>
+            {/* Action Buttons */}
+            <div className="flex justify-between mt-6">
+              <button
+                onClick={prevStep}
+                className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 transition"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 transition"
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>

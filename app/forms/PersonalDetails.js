@@ -3,6 +3,9 @@
 
 import { useForm } from "@components/FormContext";
 import { useForm as useHookForm  } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 
 const PersonalDetails = () => {
   const { formData, setFormData, nextStep } = useForm();
@@ -12,9 +15,22 @@ const PersonalDetails = () => {
     formState: { errors },
   } = useHookForm({ defaultValues: formData });  // Load default values from form data
 
+  const [selectedDate, setSelectedDate] = useState(formData.dateOfBirth ? new Date(formData.dateOfBirth) : null);
+
   const onSubmit = (data) => {
-    setFormData({ ...formData, ...data });  // Update global form data
+    setFormData({ ...formData, ...data, dateOfBirth: selectedDate });  // Update global form data
     nextStep();  // Go to the next step
+  };
+
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      return age - 1;
+    }
+    return age;
   };
 
   return (
@@ -52,13 +68,23 @@ const PersonalDetails = () => {
         </div>
         <div className="space-y-2">
           <label htmlFor="dateOfBirth" className="block font-medium text-gray-700">Date Of Birth</label>
-          <input 
+          <DatePicker 
             id="dateOfBirth" 
-            type="date" placeholder="MM/DD/YYYY" 
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            dateFormat="MM/dd/yyyy" 
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("dateOfBirth", { required: "DOB is required" })} 
+            maxDate={new Date()}
+            placeholderText="MM/DD/YYYY"
           />
-          {errors.dateOfBirth && <span className="text-red-500 text-sm">{errors.dateOfBirth.message}</span>}
+          {selectedDate && calculateAge(selectedDate) < 18 && (
+            <span role="alert" className="text-red-500 text-sm">
+              You must be at least 18 Years old
+            </span>
+          )}
+          {!selectedDate && errors.dateOfBirth && (
+            <span role="alert" className="text-red-500 text-sm">{errors.dateOfBirth.message}</span>
+          )}
         </div>
         <div className="space-y-2">
           <label htmlFor="email" className="block font-medium text-gray-700">Email</label>
