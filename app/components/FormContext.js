@@ -20,6 +20,8 @@ export const FormProvider = ({ children }) => {
     cityState: '',
     postalCode: '',
     country: '',
+    id_document: null,
+    proof_of_address: null,
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [isMounted, setIsMounted] = useState(false);  // Track if mounted

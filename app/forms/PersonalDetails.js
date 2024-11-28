@@ -18,7 +18,7 @@ const PersonalDetails = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="firstName" className="block font-medium text-gray-700">First Name</label>
@@ -113,7 +113,7 @@ const PersonalDetails = () => {
           {errors.fatherName && <span className="text-red-500 text-sm">{errors.fatherName.message}</span>}
         </div>
         <div className="flex justify-between mt-6">
-          <button type="submit" className="text-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Next</button>
+          <button type="submit" className="text-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition ease-in-out duration-200">Next</button>
         </div>
       </form>
     </div>

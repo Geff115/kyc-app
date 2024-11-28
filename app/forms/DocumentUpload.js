@@ -12,9 +12,10 @@ const DocumentUpload = () => {
 
   const [idPreview, setIdPreview] = useState(null);
   const [proofPreview, setProofPreview] = useState(null);
-  const [fileError, setFileError] = useState("");
+  const [idFileError, setIdFileError] = useState("");
+  const [proofFileError, setProofFileError] = useState("");
 
-  const handleFileChange = (e, setPreview, setError) => {
+  const handleFileChange = (e, field, setError) => {
     const file = e.target.files[0];
     if (file) {
       const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
@@ -30,31 +31,33 @@ const DocumentUpload = () => {
       }
 
       setError("");
+
       const blobURL = URL.createObjectURL(file);
-      setPreview({ url: blobURL, type: file.type, file });  // Store URL, type, and file
+      setFormData((prevData) => ({
+        ...prevData,
+        [field]: { url: blobURL, type: file.type, file: file.name },
+      }));
+
+      // Update the preview based on the field
+      if (field === "id_document") setIdPreview({ url: blobURL, type: file.type });
+      if (field === "proof_of_address") setProofPreview({ url: blobURL, type: file.type });
     }
   };
 
   useEffect(() => {
     // clean up blob URLs to free up memory
     return () => {
-      if (idPreview) URL.revokeObjectURL(idPreview);
-      if (proofPreview) URL.revokeObjectURL(proofPreview);
+      if (idPreview?.url && !formData.id_document?.url) URL.revokeObjectURL(idPreview.url);
+      if (proofPreview?.url && !formData.proof_of_address?.url) URL.revokeObjectURL(proofPreview.url);
     };
-  }, [idPreview, proofPreview]);
+  }, [idPreview, proofPreview, formData]);
 
   const onSubmit = (data) => {
-    setFormData({ 
-      ...formData,
-      id_document: idPreview ? { url: idPreview.url, type: idPreview.type } : null,  // store URL and type
-      proof_of_address: proofPreview ? { url: proofPreview.url, type: proofPreview.type } : null,  // store URL and type
-      ...data,
-    });
     nextStep();
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="id_document" className="block font-medium text-gray-700">Upload ID Document</label>
@@ -64,7 +67,7 @@ const DocumentUpload = () => {
             accept=".jpg, .jpeg, .png, .pdf"
             className="w-full p-2 border border-gray-300 rounded-lg"
             {...register("id_document", { required: "Please upload a valid Government ID" })}
-            onChange={(e) => handleFileChange(e, setIdPreview, setFileError)}
+            onChange={(e) => handleFileChange(e, "id_document", setIdFileError)}
           />
           {idPreview && (
             <div className="relative w-32 h-32">
@@ -91,7 +94,7 @@ const DocumentUpload = () => {
               </button>
             </div>
           )}
-          {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
+          {idFileError && <span className="text-red-500 text-sm">{idFileError}</span>}
           {errors.id_document && <span className="text-red-500 text-sm">{errors.id_document.message}</span>}
         </div>
 
@@ -103,7 +106,7 @@ const DocumentUpload = () => {
             accept=".jpg, .png, .jpeg, .pdf"
             className="w-full p-2 border border-gray-300 rounded-lg"
             {...register("proof_of_address", { required: "Please upload a valid proof of address" })}
-            onChange={(e) => handleFileChange(e, setProofPreview, setFileError)}
+            onChange={(e) => handleFileChange(e, "proof_of_address", setProofFileError)}
           />
           {proofPreview && (
             <div className="relative w-32 h-32">
@@ -130,24 +133,24 @@ const DocumentUpload = () => {
               </button>
             </div>
           )}
-          {fileError && <span className="text-red-500 text-sm">{fileError}</span>}
+          {proofFileError && <span className="text-red-500 text-sm">{proofFileError}</span>}
           {errors.proof_of_address && <span className="text-red-500 text-sm">{errors.proof_of_address.message}</span>}
         </div>
 
         <div className="flex justify-between mt-6">
-          <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+          <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-600 transition ease-in-out duration-200">
             Back
           </button>
           <button 
             type="submit"
-            disabled={fileError || !idPreview || !proofPreview}
+            disabled={idFileError || proofFileError || !idPreview || !proofPreview}
             className={`px-4 py-2 rounded-lg ${
-              fileError || !idPreview || !proofPreview
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-blue-500 hover:bg-blue-600 text-white'
+              idFileError || proofFileError || !idPreview || !proofPreview
+              ? 'bg-blue-400 cursor-not-allowed'
+              : 'bg-blue-500 hover:bg-blue-600 transition ease-in-out duration-200 text-white'
             }`}
             >
-              submit
+              Submit
             </button>
         </div>
       </form>
