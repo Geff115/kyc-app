@@ -1,6 +1,6 @@
-## KYC Form Application
+# KYC Form Application
 
-# Project Overview
+## Project Overview
 
 The KYC Form Application is a multi-step, responsive form designed to collect and validate
 user information as part of a Know Your Customer (KYC) process. It includes features like
@@ -34,13 +34,13 @@ Tailwind CSS for high performance and maintainability.
 
 ## Getting Started
 
-# Prerequisites
+## Prerequisites
 
 - Node.js installed on your machine.
 - A package manager like npm or yarn.
 
 
-# Installation
+## Installation
 
 Clone the repository and install dependencies:
 
@@ -48,7 +48,7 @@ Clone the repository and install dependencies:
     - cd kyc-app
     - npm install
 
-# Run Locally
+## Run Locally
 
 Start the development server:
 
@@ -70,7 +70,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 This application is deployed using Vercel. You can access the live application here:
 
 
-# To deploy your own version:
+## To deploy your own version:
 
 1. Push your code to a Github repository.
 2. Connect your repository to Vercel.
