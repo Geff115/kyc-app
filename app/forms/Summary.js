@@ -3,6 +3,7 @@
 "use client";
 
 import { useForm } from "@components/FormContext";
+import Image from "next/image";
 
 const Summary = () => {
     const { formData, prevStep } = useForm();
@@ -30,9 +31,12 @@ const Summary = () => {
               View {label} PDF
             </a>
           ) : (
-            <img
+            <Image
               src={fileData.url}
               alt={`Preview of uploaded ${label}`}
+              width={128}
+              height={128}
+              unoptimized
               className="w-32 h-32 object-cover rounded-md mt-2"
             />
           )}

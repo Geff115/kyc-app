@@ -3,6 +3,8 @@
 
 import { useForm } from "@components/FormContext";
 import { useForm as useHookForm  } from "react-hook-form";
+import Select from "react-select";
+import useCountryList from "react-select-country-list";
 
 const AddressDetails = () => {
   const { formData, setFormData, nextStep, prevStep } = useForm();
@@ -10,11 +12,23 @@ const AddressDetails = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    getValues,
   } = useHookForm({ defaultValues: formData });  // Load default values from form data
+
+  // Fetching the countries list from the library
+  const countries = useCountryList().getData();
 
   const onSubmit = (data) => {
     setFormData({ ...formData, ...data });  // Update global form data
     nextStep();  // Go to the next step
+  };
+
+  // Handle country change to update the react-hook-form value
+  const handleCountryChange = (selectedOption) => {
+    setValue("country", selectedOption ? selectedOption.value : "");  // Set country value in the form
+    setFormData({ ...formData, country: selectedOption ? selectedOption.label : "" });  // Persisting the data in global form state
+
   };
 
   return (
@@ -62,11 +76,17 @@ const AddressDetails = () => {
         </div>
         <div className="space-y-2">
           <label htmlFor="country" className="block font-medium text-gray-700">Country</label>
-          <input 
+          <Select 
             id="country" 
-            type="text" 
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register("country", { required: "What Country are you from?" })} 
+            options={countries}   // Dynamic list of countries
+            onChange={handleCountryChange}  //Handle the change event
+            defaultValue={countries.find((c) => c.value === getValues("country"))}  // Preselect country
+            getOptionLabel={(e) => e.label}
+            getOptionValue={(e) => e.value}
+            className="react-select-container"
+            classNamePrefix="react-select"
+            isSearchable={true}  // Enabling search functionality
+            placeholder="Select your country" 
           />
           {errors.country && <span className="text-red-500 text-sm">{errors.country.message}</span>}
         </div>
