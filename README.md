@@ -23,7 +23,7 @@ Tailwind CSS for high performance and maintainability.
 
 ## Technologies Used
 
-- Framework: Next.js
+- Framework: [Next.js](Next.js)
 - Styling: Tailwind CSS
 - State Management: Context API
 - Validation: React Hook Form
