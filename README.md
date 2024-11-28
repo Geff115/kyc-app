@@ -70,7 +70,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 This application is deployed using Vercel. You can access the live application here:
 
 
-## To deploy your own version:
+## To deploy your own version
 
 1. Push your code to a Github repository.
 2. Connect your repository to Vercel.
